@@ -15,6 +15,15 @@ export class ContactForm extends Component {
             required
           />
           <br />
+          <p>Number</p>
+          <input
+            type="tel"
+            name="number"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            required
+          />
+          <br />
+          <br />
           <button type="button">Add contact</button>
         </form>
       </>
