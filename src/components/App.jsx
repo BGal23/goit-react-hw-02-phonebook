@@ -7,10 +7,30 @@ import { ContactList } from './ContactList/ContactList';
 export class App extends Component {
   state = {
     contacts: [
-      { id: uuidv4(), name: 'Rosie Simpson', number: '459-12-56' },
-      { id: uuidv4(), name: 'Hermione Kline', number: '443-89-12' },
-      { id: uuidv4(), name: 'Eden Clements', number: '645-17-79' },
-      { id: uuidv4(), name: 'Annie Copeland', number: '227-91-26' },
+      {
+        id: uuidv4(),
+        name: 'Rosie Simpson',
+        number: '459-12-56',
+        disabled: 'block',
+      },
+      {
+        id: uuidv4(),
+        name: 'Hermione Kline',
+        number: '443-89-12',
+        disabled: 'block',
+      },
+      {
+        id: uuidv4(),
+        name: 'Eden Clements',
+        number: '645-17-79',
+        disabled: 'block',
+      },
+      {
+        id: uuidv4(),
+        name: 'Annie Copeland',
+        number: '227-91-26',
+        disabled: 'block',
+      },
     ],
     name: '',
     number: '',
@@ -25,6 +45,7 @@ export class App extends Component {
         id: uuidv4(),
         name: name,
         number: number,
+        disabled: 'block',
       })
     );
     console.log(this.state);
@@ -32,38 +53,28 @@ export class App extends Component {
 
   findContact = event => {
     const value = event.target.value.toLowerCase();
-    const newArray = [];
     this.setState(find =>
-      find.contacts.filter(person => {
+      find.contacts.forEach(person => {
         (person.name.toLowerCase().includes(value) ||
-          person.number.includes(value)) === true &&
-          newArray.push({
-            id: uuidv4(),
-            name: person.name,
-            number: person.number,
-          });
-
-        return this.newFun(newArray);
+          person.number.includes(value)) === true
+          ? (person.disabled = 'block')
+          : (person.disabled = 'none');
       })
     );
-  };
-
-  newFun = x => {
-    console.log(x);
-
-    this.setState(w => (w.contacts = x));
+    return console.log('?');
   };
 
   render() {
     const person = this.state.contacts;
     const list = person.map(contact => (
-      <li className="test" key={contact.id}>
+      <li style={{ display: contact.disabled }} key={contact.id}>
         {contact.name} {contact.number}
       </li>
     ));
+
     return (
       <>
-        <h2>Phonebook</h2>
+        <h2 hidden>Phonebook</h2>
         <ContactForm newContact={this.addContact} />
         <h2>Contact</h2>
         <Filter filter={this.findContact} />
