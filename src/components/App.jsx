@@ -32,13 +32,26 @@ export class App extends Component {
 
   findContact = event => {
     const value = event.target.value.toLowerCase();
+    const newArray = [];
     this.setState(find =>
       find.contacts.filter(person => {
         (person.name.toLowerCase().includes(value) ||
-          person.number.toLowerCase().includes(value)) === false &&
-          (person.name = '');
+          person.number.includes(value)) === true &&
+          newArray.push({
+            id: uuidv4(),
+            name: person.name,
+            number: person.number,
+          });
+
+        return this.newFun(newArray);
       })
     );
+  };
+
+  newFun = x => {
+    console.log(x);
+
+    this.setState(w => (w.contacts = x));
   };
 
   render() {
