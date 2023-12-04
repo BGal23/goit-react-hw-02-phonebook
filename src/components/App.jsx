@@ -54,14 +54,14 @@ export class App extends Component {
   findContact = event => {
     const value = event.target.value.toLowerCase();
     this.setState(find =>
-      find.contacts.forEach(person => {
+      find.contacts.filter(person => {
         (person.name.toLowerCase().includes(value) ||
           person.number.includes(value)) === true
           ? (person.disabled = 'block')
           : (person.disabled = 'none');
+        return console.log('ok');
       })
     );
-    return console.log('?');
   };
 
   render() {
