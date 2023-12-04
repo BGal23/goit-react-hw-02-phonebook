@@ -40,15 +40,20 @@ export class App extends Component {
     event.preventDefault();
     const name = event.currentTarget.children[1].value;
     const number = event.currentTarget.children[4].value;
-    this.setState(person =>
-      person.contacts.push({
-        id: uuidv4(),
-        name: name,
-        number: number,
-        disabled: 'block',
-      })
-    );
-    console.log(this.state);
+    if (this.state.contacts.some(check => check.name === name)) {
+      alert(`${name} is already in contacts.`);
+    } else if (this.state.contacts.some(check => check.number === number)) {
+      alert(`This number ${number} is already in contacts.`);
+    } else {
+      this.setState(person =>
+        person.contacts.push({
+          id: uuidv4(),
+          name: name,
+          number: number,
+          disabled: 'block',
+        })
+      );
+    }
   };
 
   findContact = event => {
@@ -59,16 +64,30 @@ export class App extends Component {
           person.number.includes(value)) === true
           ? (person.disabled = 'block')
           : (person.disabled = 'none');
-        return console.log('ok');
+        return console.log('ok?');
       })
     );
+  };
+
+  delateContact = event => {
+    const id = event.target.parentElement.id;
+    const indexNum = this.state.contacts.findIndex(x => x.id === id);
+    this.setState(remove => remove.contacts.splice(indexNum, 1));
+    //console.log(id, indexNum);
   };
 
   render() {
     const person = this.state.contacts;
     const list = person.map(contact => (
-      <li style={{ display: contact.disabled }} key={contact.id}>
-        {contact.name} {contact.number}
+      <li
+        style={{ display: contact.disabled }}
+        id={contact.id}
+        key={contact.id}
+      >
+        ∙ {contact.name} {contact.number}{' '}
+        <button type="button" onClick={this.delateContact}>
+          Delete
+        </button>
       </li>
     ));
 
