@@ -3,37 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { ElementsList } from './ElementsList/ElementsList';
 
 export class App extends Component {
   state = {
-    contacts: [
-      {
-        id: uuidv4(),
-        name: 'Rosie Simpson',
-        number: '459-12-56',
-        disabled: 'block',
-      },
-      {
-        id: uuidv4(),
-        name: 'Hermione Kline',
-        number: '443-89-12',
-        disabled: 'block',
-      },
-      {
-        id: uuidv4(),
-        name: 'Eden Clements',
-        number: '645-17-79',
-        disabled: 'block',
-      },
-      {
-        id: uuidv4(),
-        name: 'Annie Copeland',
-        number: '227-91-26',
-        disabled: 'block',
-      },
-    ],
+    contacts: [],
     name: '',
-    number: '',
   };
 
   addContact = event => {
@@ -64,7 +39,7 @@ export class App extends Component {
           person.number.includes(value)) === true
           ? (person.disabled = 'block')
           : (person.disabled = 'none');
-        return console.log('ok?');
+        return person; //tutaj trzeba return (cokolwiek) ale mi w sumie jest niepotrzebny więc dałem zeby sie nie świeciło na zółto
       })
     );
   };
@@ -73,32 +48,22 @@ export class App extends Component {
     const id = event.target.parentElement.id;
     const indexNum = this.state.contacts.findIndex(x => x.id === id);
     this.setState(remove => remove.contacts.splice(indexNum, 1));
-    //console.log(id, indexNum);
+    console.log(id, indexNum);
   };
 
   render() {
-    const person = this.state.contacts;
-    const list = person.map(contact => (
-      <li
-        style={{ display: contact.disabled }}
-        id={contact.id}
-        key={contact.id}
-      >
-        ∙ {contact.name} {contact.number}{' '}
-        <button type="button" onClick={this.delateContact}>
-          Delete
-        </button>
-      </li>
-    ));
-
     return (
       <>
-        <h2 hidden>Phonebook</h2>
+        <h2>Phonebook</h2>
         <ContactForm newContact={this.addContact} />
         <h2>Contact</h2>
         <Filter filter={this.findContact} />
-        <ContactList />
-        {list}
+        <ContactList>
+          <ElementsList
+            person={this.state.contacts}
+            delateContact={this.delateContact}
+          />
+        </ContactList>
       </>
     );
   }
