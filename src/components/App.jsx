@@ -13,27 +13,40 @@ export class App extends Component {
       { id: uuidv4(), name: 'Annie Copeland', number: '227-91-26' },
     ],
     name: '',
+    number: '',
   };
 
   addContact = event => {
     if (event.target.type === 'button') {
       const name = event.currentTarget.children[1].value;
       const number = event.currentTarget.children[4].value;
-      this.setState(
-        x =>
-          (x.contacts[x.contacts.length] = {
-            id: uuidv4(),
-            name: name,
-            number: number,
-          })
+      this.setState(person =>
+        person.contacts.push({
+          id: uuidv4(),
+          name: name,
+          number: number,
+        })
       );
       console.log(this.state);
     }
   };
+
+  findContact = event => {
+    const value = event.target.value.toLowerCase();
+    this.setState(find =>
+      find.contacts.forEach(person => {
+        person.name.toLowerCase().includes(value) ||
+        person.number.toLowerCase().includes(value) === true
+          ? console.log('ok')
+          : console.log('no');
+      })
+    );
+  };
+
   render() {
     const person = this.state.contacts;
     const list = person.map(contact => (
-      <li key={contact.id}>
+      <li className="test" key={contact.id}>
         {contact.name} {contact.number}
       </li>
     ));
@@ -42,7 +55,7 @@ export class App extends Component {
         <h2>Phonebook</h2>
         <ContactForm newContact={this.addContact} />
         <h2>Contact</h2>
-        <Filter />
+        <Filter filter={this.findContact} />
         <ContactList />
         {list}
       </>
