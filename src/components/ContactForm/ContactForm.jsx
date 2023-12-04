@@ -5,7 +5,7 @@ export class ContactForm extends Component {
     const { newContact } = this.props;
     return (
       <>
-        <form onClick={newContact}>
+        <form onSubmit={newContact}>
           <p>Name</p>
           <input
             type="text"
@@ -25,7 +25,7 @@ export class ContactForm extends Component {
           />
           <br />
           <br />
-          <button type="button">Add contact</button>
+          <button type="submit">Add contact</button>
         </form>
       </>
     );

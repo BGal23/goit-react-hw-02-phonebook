@@ -17,28 +17,26 @@ export class App extends Component {
   };
 
   addContact = event => {
-    if (event.target.type === 'button') {
-      const name = event.currentTarget.children[1].value;
-      const number = event.currentTarget.children[4].value;
-      this.setState(person =>
-        person.contacts.push({
-          id: uuidv4(),
-          name: name,
-          number: number,
-        })
-      );
-      console.log(this.state);
-    }
+    event.preventDefault();
+    const name = event.currentTarget.children[1].value;
+    const number = event.currentTarget.children[4].value;
+    this.setState(person =>
+      person.contacts.push({
+        id: uuidv4(),
+        name: name,
+        number: number,
+      })
+    );
+    console.log(this.state);
   };
 
   findContact = event => {
     const value = event.target.value.toLowerCase();
     this.setState(find =>
-      find.contacts.forEach(person => {
-        person.name.toLowerCase().includes(value) ||
-        person.number.toLowerCase().includes(value) === true
-          ? console.log('ok')
-          : console.log('no');
+      find.contacts.filter(person => {
+        (person.name.toLowerCase().includes(value) ||
+          person.number.toLowerCase().includes(value)) === false &&
+          (person.name = '');
       })
     );
   };
