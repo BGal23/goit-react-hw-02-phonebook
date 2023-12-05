@@ -29,6 +29,8 @@ export class App extends Component {
         })
       );
     }
+    event.currentTarget.children[1].value = '';
+    event.currentTarget.children[4].value = '';
   };
 
   findContact = event => {
